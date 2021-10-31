@@ -1,11 +1,8 @@
 import delay from "./delay";
 import { colors } from "./design/colors";
 import { grid } from "./design/grid";
-
-import { easeLinear } from "d3-ease";
 import * as _ from "lodash";
 import * as React from "react";
-import Animate from "react-move/Animate";
 import {
   Dimensions,
   StyleProp,
@@ -37,7 +34,7 @@ export interface IProps {
   customBackSpaceIcon?: Function
   emptyColumnComponent: any
   endProcess: (pinCode: string, isErrorValidation?: boolean) => void
-  launchTouchID?: () => void 
+  launchTouchID?: () => void
   getCurrentLength?: (length: number) => void
   iconButtonDeleteDisabled?: boolean
   numbersButtonOverlayColor: string
@@ -247,25 +244,13 @@ class PinCode extends React.PureComponent<IProps, IState> {
       ["8", "TUV"],
       ["9", "WXYZ"],
       ["0", " "]
-  ]); 
+  ]);
     const disabled =
       (this.state.password.length === this.props.passwordLength ||
         this.state.showError) &&
       !this.state.attemptFailed;
     return (
-      <Animate
-        show={true}
-        start={{
-          opacity: 1
-        }}
-        update={{
-          opacity: [
-            this.state.showError && !this.state.attemptFailed ? 0.5 : 1
-          ],
-          timing: { duration: 200, ease: easeLinear }
-        }}>
-        {({ opacity }: any) => (
-          <TouchableHighlight
+        <TouchableHighlight
             style={[
               styles.buttonCircle,
               { backgroundColor: this.props.colorCircleButtons },
@@ -280,39 +265,35 @@ class PinCode extends React.PureComponent<IProps, IState> {
             }}
             accessible
             accessibilityLabel={text}>
-            <View>
+          <View>
             <Text
-              style={[
-                styles.text,
-                this.props.styleTextButton,
-                {
-                  opacity: opacity,
-                  color: this.state.textButtonSelected === text
-                    ? this.props.styleColorButtonTitleSelected
-                    : this.props.styleColorButtonTitle
-                }
-              ]}>
+                style={[
+                  styles.text,
+                  this.props.styleTextButton,
+                  {
+                    color: this.state.textButtonSelected === text
+                        ? this.props.styleColorButtonTitleSelected
+                        : this.props.styleColorButtonTitle
+                  }
+                ]}>
               {text}
             </Text>
             {((this.props.alphabetCharsVisible) &&
-              <Text
-                style={[
-                  styles.tinytext,
-                  this.props.styleAlphabet,
-                {
-                  opacity: opacity,
-                  color: this.state.textButtonSelected === text
-                    ? this.props.styleColorButtonTitleSelected
-                    : this.props.styleColorButtonTitle
-                }
-                ]}>
-                {alphanumericMap.get(text)}
-              </Text>
+                <Text
+                    style={[
+                      styles.tinytext,
+                      this.props.styleAlphabet,
+                      {
+                        color: this.state.textButtonSelected === text
+                            ? this.props.styleColorButtonTitleSelected
+                            : this.props.styleColorButtonTitle
+                      }
+                    ]}>
+                  {alphanumericMap.get(text)}
+                </Text>
             )}
-            </View>
-          </TouchableHighlight>
-        )}
-      </Animate>
+          </View>
+        </TouchableHighlight>
     );
   };
 
@@ -378,101 +359,74 @@ class PinCode extends React.PureComponent<IProps, IState> {
           const lengthSup =
             ((password.length >= val + 1 && !changeScreen) || showError) &&
             !attemptFailed;
+          const data = {
+            x: [moveData.x],
+            opacity: [lengthSup ? 1 : 0.5],
+            height: [
+              lengthSup ? this._circleSizeFull : this._circleSizeEmpty
+            ],
+            width: [
+              lengthSup ? this._circleSizeFull : this._circleSizeEmpty
+            ],
+            color: [
+              showError
+                  ? colorPwdErr
+                  : (lengthSup && password.length > 0)
+                  ? colorPwd
+                  : colorPwdEmp
+            ],
+            borderRadius: [
+              lengthSup
+                  ? this._circleSizeFull / 2
+                  : this._circleSizeEmpty / 2
+            ],
+            marginRight: [
+              lengthSup
+                  ? 10 - (this._circleSizeFull - this._circleSizeEmpty) / 2
+                  : 10
+            ],
+            marginLeft: [
+              lengthSup
+                  ? 10 - (this._circleSizeFull - this._circleSizeEmpty) / 2
+                  : 10
+            ],
+            y: [moveData.y],
+          };
           return (
-            <Animate
-              key={val}
-              show={true}
-              start={{
-                opacity: 0.5,
-                height: this._circleSizeEmpty,
-                width: this._circleSizeEmpty,
-                borderRadius: this._circleSizeEmpty / 2,
-                color: colorPwdEmp,
-                marginRight: 10,
-                marginLeft: 10,
-                x: 0,
-                y: 0
-              }}
-              update={{
-                x: [moveData.x],
-                opacity: [lengthSup ? 1 : 0.5],
-                height: [
-                  lengthSup ? this._circleSizeFull : this._circleSizeEmpty
-                ],
-                width: [
-                  lengthSup ? this._circleSizeFull : this._circleSizeEmpty
-                ],
-                color: [
-                  showError
-                    ? colorPwdErr
-                    : (lengthSup && password.length > 0)
-                      ? colorPwd
-                      : colorPwdEmp
-                ],
-                borderRadius: [
-                  lengthSup
-                    ? this._circleSizeFull / 2
-                    : this._circleSizeEmpty / 2
-                ],
-                marginRight: [
-                  lengthSup
-                    ? 10 - (this._circleSizeFull - this._circleSizeEmpty) / 2
-                    : 10
-                ],
-                marginLeft: [
-                  lengthSup
-                    ? 10 - (this._circleSizeFull - this._circleSizeEmpty) / 2
-                    : 10
-                ],
-                y: [moveData.y],
-                timing: { duration: 200, ease: easeLinear }
-              }}>
-              {({
-                opacity,
-                x,
-                height,
-                width,
-                color,
-                borderRadius,
-                marginRight,
-                marginLeft
-              }: any) => (
-                  <View style={styles.viewCircles}>
-                    {((!this.props.pinCodeVisible ||
-                      (this.props.pinCodeVisible && !lengthSup)) && (
-                        <View
-                          style={[{
-                            left: x,
-                            height: height,
-                            width: width,
-                            opacity: opacity,
-                            borderRadius: borderRadius,
-                            marginLeft: marginLeft,
-                            marginRight: marginRight,
-                            backgroundColor: color
-                          }, this.props.stylePinCodeCircle]}
-                        />
-                      )) || (
-                        <View
+              <View style={styles.viewCircles}>
+                {((!this.props.pinCodeVisible ||
+                    (this.props.pinCodeVisible && !lengthSup)) && (
+                    <View
+                        style={[{
+                          left: data.x,
+                          height: data.height,
+                          width: data.width,
+                          opacity: data.opacity,
+                          borderRadius: data.borderRadius,
+                          marginLeft: data.marginLeft,
+                          marginRight: data.marginRight,
+                          backgroundColor: data.color
+                        }, this.props.stylePinCodeCircle]}
+                    />
+                )) || (
+                    <View
+                        style={{
+                          left: data.x,
+                          opacity: data.opacity,
+                          marginLeft: data.marginLeft,
+                          marginRight: data.marginRight
+                        }}>
+                      <Text
                           style={{
-                            left: x,
-                            opacity: opacity,
-                            marginLeft: marginLeft,
-                            marginRight: marginRight
+                            color: data.color,
+                            fontFamily: this.props.textPasswordVisibleFamily,
+                            fontSize: this.props.textPasswordVisibleSize
                           }}>
-                          <Text
-                            style={{
-                              color: color,
-                              fontFamily: this.props.textPasswordVisibleFamily,
-                              fontSize: this.props.textPasswordVisibleSize
-                            }}>
-                            {this.state.password[val]}
-                          </Text>
-                        </View>
-                      )}
-                  </View>
+                        {this.state.password[val]}
+                      </Text>
+                    </View>
                 )}
-            </Animate>
+              </View>
           );
         })}
       </View>
@@ -577,72 +531,49 @@ class PinCode extends React.PureComponent<IProps, IState> {
 
   render() {
     const { password, showError, attemptFailed, changeScreen } = this.state;
+    const data = {
+      opacity: [changeScreen ? 0 : 1],
+      colorTitle: [
+        showError || attemptFailed
+            ? this.props.styleColorTitleError
+            : this.props.styleColorTitle
+      ],
+      colorSubtitle: [
+        showError || attemptFailed
+            ? this.props.styleColorSubtitleError
+            : this.props.styleColorSubtitle
+      ],
+      opacityTitle: [showError || attemptFailed ? grid.highOpacity : 1],
+    };
     return (
       <View
         style={[
           styles.container,
           this.props.styleContainer
         ]}>
-        <Animate
-          show={true}
-          start={{
-            opacity: 0,
-            colorTitle: this.props.styleColorTitle,
-            colorSubtitle: this.props.styleColorSubtitle,
-            opacityTitle: 1
-          }}
-          enter={{
-            opacity: [1],
-            colorTitle: [
-              this.props.styleColorTitle
-            ],
-            colorSubtitle: [
-              this.props.styleColorSubtitle
-            ],
-            opacityTitle: [1],
-            timing: { duration: 200, ease: easeLinear }
-          }}
-          update={{
-            opacity: [changeScreen ? 0 : 1],
-            colorTitle: [
-              showError || attemptFailed
-                ? this.props.styleColorTitleError
-                : this.props.styleColorTitle
-            ],
-            colorSubtitle: [
-              showError || attemptFailed
-                ? this.props.styleColorSubtitleError
-                : this.props.styleColorSubtitle
-            ],
-            opacityTitle: [showError || attemptFailed ? grid.highOpacity : 1],
-            timing: { duration: 200, ease: easeLinear }
-          }}>
-          {({ opacity, colorTitle, colorSubtitle, opacityTitle }: any) => (
-            <View
-              style={[
-                styles.viewTitle,
-                this.props.styleViewTitle,
-                { opacity: opacity }
-              ]}>
-              {this.props.titleComponent
-                ? this.props.titleComponent()
-                : this.renderTitle(
-                  colorTitle,
-                  opacityTitle,
+        <View
+            style={[
+              styles.viewTitle,
+              this.props.styleViewTitle,
+              { opacity: data.opacity }
+            ]}>
+          {this.props.titleComponent
+              ? this.props.titleComponent()
+              : this.renderTitle(
+                  data.colorTitle,
+                  data.opacityTitle,
                   attemptFailed,
                   showError
-                )}
-              {this.props.subtitleComponent
-                ? this.props.subtitleComponent()
-                : this.renderSubtitle(
-                  colorSubtitle,
-                  opacityTitle,
+              )}
+          {this.props.subtitleComponent
+              ? this.props.subtitleComponent()
+              : this.renderSubtitle(
+                  data.colorSubtitle,
+                  data.opacityTitle,
                   attemptFailed,
                   showError
-                )}
-            </View>
-          )}
-        </Animate>
+              )}
+        </View>
         <View style={styles.flexCirclePassword}>
           {this.props.passwordComponent
             ? this.props.passwordComponent()
@@ -729,7 +660,7 @@ class PinCode extends React.PureComponent<IProps, IState> {
                 styles.colEmpty,
                 this.props.styleEmptyColumn
               ]}>
-              {this.props.emptyColumnComponent 
+              {this.props.emptyColumnComponent
                 ? this.props.emptyColumnComponent(this.props.launchTouchID)
                 : null
               }
@@ -751,22 +682,8 @@ class PinCode extends React.PureComponent<IProps, IState> {
                 styles.colButtonCircle,
                 this.props.styleColumnButtons
               ]}>
-              <Animate
-                show={true}
-                start={{
-                  opacity: 0.5
-                }}
-                update={{
-                  opacity: [
-                    password.length === 0 ||
-                      password.length === this.props.passwordLength
-                      ? 0.5
-                      : 1
-                  ],
-                  timing: { duration: 400, ease: easeLinear }
-                }}>
-                {({ opacity }: any) =>
-                  this.props.buttonDeleteComponent
+              {
+                this.props.buttonDeleteComponent
                     ? this.props.buttonDeleteComponent(() => {
                       if (this.state.password.length > 0) {
                         const newPass = this.state.password.slice(0, -1);
@@ -775,9 +692,12 @@ class PinCode extends React.PureComponent<IProps, IState> {
                           this.props.getCurrentLength(newPass.length);
                       }
                     })
-                    : this.renderButtonDelete(opacity)
-                }
-              </Animate>
+                    : this.renderButtonDelete(password.length === 0 ||
+                    password.length === this.props.passwordLength
+                    ? 0.5
+                    : 1
+                    )
+              }
             </Col>
           </Row>
         </Grid>

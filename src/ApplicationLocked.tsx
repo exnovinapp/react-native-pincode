@@ -4,9 +4,7 @@ import delay from "./delay";
 import { PinResultStatus } from "./utils";
 
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { easeLinear } from "d3-ease";
 import * as React from "react";
-import Animate from "react-move/Animate";
 import {
   StyleSheet,
   View,
@@ -184,77 +182,53 @@ class ApplicationLocked extends React.PureComponent<IProps, IState> {
     const seconds = Math.floor(this.state.timeDiff / 1000) % 60;
     return (
       <View>
-        <Animate
-          show={true}
-          start={{
-            opacity: 0
-          }}
-          enter={{
-            opacity: [1],
-            timing: { delay: 1000, duration: 1500, ease: easeLinear }
-          }}>
-          {(state: any) => (
-            <View
+        <View
+            style={[
+              styles.viewTextLock,
+              this.props.styleViewTextLock,
+              { opacity: 1 }
+            ]}>
+          {this.props.titleComponent
+              ? this.props.titleComponent()
+              : this.renderTitle()}
+          {this.props.timerComponent
+              ? this.props.timerComponent()
+              : this.renderTimer(minutes, seconds)}
+          {this.props.iconComponent
+              ? this.props.iconComponent()
+              : this.renderIcon()}
+          <Text
               style={[
-                styles.viewTextLock,
-                this.props.styleViewTextLock,
-                { opacity: state.opacity }
-              ]}>
-              {this.props.titleComponent
-                ? this.props.titleComponent()
-                : this.renderTitle()}
-              {this.props.timerComponent
-                ? this.props.timerComponent()
-                : this.renderTimer(minutes, seconds)}
-              {this.props.iconComponent
-                ? this.props.iconComponent()
-                : this.renderIcon()}
-              <Text
-                style={[
-                   styles.text,
-                  this.props.styleText
-                ]}>
-                {this.props.textDescription
-                  ? this.props.textDescription
-                  : `To protect your information, access has been locked for ${Math.ceil(
-                    this.props.timeToLock / 1000 / 60
-                  )} minutes.`}
-              </Text>
-              <Text
-              style={[
-                 styles.text,
+                styles.text,
                 this.props.styleText
               ]}>
-                {this.props.textSubDescription
-                  ? this.props.textSubDescription
-                  : "Come back later and try again."}
-              </Text>
-            </View>
-          )}
-        </Animate>
-        <Animate
-          show={true}
-          start={{
-            opacity: 0
-          }}
-          enter={{
-            opacity: [1],
-            timing: { delay: 2000, duration: 1500, ease: easeLinear }
-          }}>
-          {(state: any) => (
-            <View style={{ opacity: state.opacity, flex: 1 }}>
-              <View
-                style={[
-                  styles.viewCloseButton,
-                  this.props.styleViewButton
-                ]}>
-                {this.props.buttonComponent
-                  ? this.props.buttonComponent()
-                  : this.renderButton()}
-              </View>
-            </View>
-          )}
-        </Animate>
+            {this.props.textDescription
+                ? this.props.textDescription
+                : `To protect your information, access has been locked for ${Math.ceil(
+                    this.props.timeToLock / 1000 / 60
+                )} minutes.`}
+          </Text>
+          <Text
+              style={[
+                styles.text,
+                this.props.styleText
+              ]}>
+            {this.props.textSubDescription
+                ? this.props.textSubDescription
+                : "Come back later and try again."}
+          </Text>
+        </View>
+        <View style={{ opacity: 1, flex: 1 }}>
+          <View
+              style={[
+                styles.viewCloseButton,
+                this.props.styleViewButton
+              ]}>
+            {this.props.buttonComponent
+                ? this.props.buttonComponent()
+                : this.renderButton()}
+          </View>
+        </View>
       </View>
     );
   };
