@@ -380,7 +380,7 @@ class PinCode extends React.PureComponent<IProps, IState> {
             y: moveData.y,
           };
           return (
-              <View style={styles.viewCircles}>
+              <View key={val} style={styles.viewCircles}>
                 {((!this.props.pinCodeVisible ||
                     (this.props.pinCodeVisible && !lengthSup)) && (
                     <View

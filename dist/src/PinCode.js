@@ -151,7 +151,7 @@ class PinCode extends React.PureComponent {
                         : 10,
                     y: moveData.y,
                 };
-                return (React.createElement(react_native_1.View, { style: styles.viewCircles }, ((!this.props.pinCodeVisible ||
+                return (React.createElement(react_native_1.View, { key: val, style: styles.viewCircles }, ((!this.props.pinCodeVisible ||
                     (this.props.pinCodeVisible && !lengthSup)) && (React.createElement(react_native_1.View, { style: [{
                             left: data.x,
                             height: data.height,
