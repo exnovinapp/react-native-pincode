@@ -50,7 +50,6 @@ class ApplicationLocked extends React.PureComponent {
                 React.createElement(react_native_1.View, { style: [
                         styles.viewTextLock,
                         this.props.styleViewTextLock,
-                        { opacity: 1 }
                     ] },
                     this.props.titleComponent
                         ? this.props.titleComponent()
@@ -73,7 +72,7 @@ class ApplicationLocked extends React.PureComponent {
                         ] }, this.props.textSubDescription
                         ? this.props.textSubDescription
                         : "Come back later and try again.")),
-                React.createElement(react_native_1.View, { style: { opacity: 1, flex: 1 } },
+                React.createElement(react_native_1.View, { style: { flex: 1 } },
                     React.createElement(react_native_1.View, { style: [
                             styles.viewCloseButton,
                             this.props.styleViewButton

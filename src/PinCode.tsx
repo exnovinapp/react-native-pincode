@@ -360,37 +360,24 @@ class PinCode extends React.PureComponent<IProps, IState> {
             ((password.length >= val + 1 && !changeScreen) || showError) &&
             !attemptFailed;
           const data = {
-            x: [moveData.x],
-            opacity: [lengthSup ? 1 : 0.5],
-            height: [
-              lengthSup ? this._circleSizeFull : this._circleSizeEmpty
-            ],
-            width: [
-              lengthSup ? this._circleSizeFull : this._circleSizeEmpty
-            ],
-            color: [
-              showError
-                  ? colorPwdErr
-                  : (lengthSup && password.length > 0)
-                  ? colorPwd
-                  : colorPwdEmp
-            ],
-            borderRadius: [
-              lengthSup
-                  ? this._circleSizeFull / 2
-                  : this._circleSizeEmpty / 2
-            ],
-            marginRight: [
-              lengthSup
-                  ? 10 - (this._circleSizeFull - this._circleSizeEmpty) / 2
-                  : 10
-            ],
-            marginLeft: [
-              lengthSup
-                  ? 10 - (this._circleSizeFull - this._circleSizeEmpty) / 2
-                  : 10
-            ],
-            y: [moveData.y],
+            x: moveData.x,
+            height: lengthSup ? this._circleSizeFull : this._circleSizeEmpty,
+            width: lengthSup ? this._circleSizeFull : this._circleSizeEmpty,
+            color: showError
+                ? colorPwdErr
+                : (lengthSup && password.length > 0)
+                    ? colorPwd
+                    : colorPwdEmp,
+            borderRadius: lengthSup
+                ? this._circleSizeFull / 2
+                : this._circleSizeEmpty / 2,
+            marginRight: lengthSup
+                ? 10 - (this._circleSizeFull - this._circleSizeEmpty) / 2
+                : 10,
+            marginLeft: lengthSup
+                ? 10 - (this._circleSizeFull - this._circleSizeEmpty) / 2
+                : 10,
+            y: moveData.y,
           };
           return (
               <View style={styles.viewCircles}>
@@ -401,7 +388,6 @@ class PinCode extends React.PureComponent<IProps, IState> {
                           left: data.x,
                           height: data.height,
                           width: data.width,
-                          opacity: data.opacity,
                           borderRadius: data.borderRadius,
                           marginLeft: data.marginLeft,
                           marginRight: data.marginRight,
@@ -532,18 +518,14 @@ class PinCode extends React.PureComponent<IProps, IState> {
   render() {
     const { password, showError, attemptFailed, changeScreen } = this.state;
     const data = {
-      opacity: [changeScreen ? 0 : 1],
-      colorTitle: [
-        showError || attemptFailed
-            ? this.props.styleColorTitleError
-            : this.props.styleColorTitle
-      ],
-      colorSubtitle: [
-        showError || attemptFailed
-            ? this.props.styleColorSubtitleError
-            : this.props.styleColorSubtitle
-      ],
-      opacityTitle: [showError || attemptFailed ? grid.highOpacity : 1],
+      opacity: changeScreen ? 0 : 1,
+      colorTitle: showError || attemptFailed
+          ? this.props.styleColorTitleError
+          : this.props.styleColorTitle,
+      colorSubtitle: showError || attemptFailed
+          ? this.props.styleColorSubtitleError
+          : this.props.styleColorSubtitle,
+      opacityTitle: showError || attemptFailed ? grid.highOpacity : 1,
     };
     return (
       <View

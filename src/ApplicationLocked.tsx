@@ -186,7 +186,6 @@ class ApplicationLocked extends React.PureComponent<IProps, IState> {
             style={[
               styles.viewTextLock,
               this.props.styleViewTextLock,
-              { opacity: 1 }
             ]}>
           {this.props.titleComponent
               ? this.props.titleComponent()
@@ -218,7 +217,7 @@ class ApplicationLocked extends React.PureComponent<IProps, IState> {
                 : "Come back later and try again."}
           </Text>
         </View>
-        <View style={{ opacity: 1, flex: 1 }}>
+        <View style={{ flex: 1 }}>
           <View
               style={[
                 styles.viewCloseButton,
