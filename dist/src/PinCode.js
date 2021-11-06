@@ -18,14 +18,18 @@ class PinCode extends React.PureComponent {
     constructor(props) {
         super(props);
         this.failedAttempt = async () => {
-            await delay_1.default(300);
+            // await delay(300);
             this.setState({
                 showError: true,
                 attemptFailed: true,
                 changeScreen: false
             });
-            this.doShake();
+            // this.doShake();
+            if (this.props.vibrationEnabled)
+                react_native_1.Vibration.vibrate(500, false);
             await delay_1.default(this.props.delayBetweenAttempts);
+            if (this.props.getCurrentLength)
+                this.props.getCurrentLength(0);
             this.newAttempt();
         };
         this.newAttempt = async () => {
@@ -244,24 +248,24 @@ class PinCode extends React.PureComponent {
         }
     }
     async doShake() {
-        const duration = 70;
+        //const duration = 70;
         if (this.props.vibrationEnabled)
             react_native_1.Vibration.vibrate(500, false);
-        const length = react_native_1.Dimensions.get("window").width / 3;
-        await delay_1.default(duration);
-        this.setState({ moveData: { x: length, y: 0 } });
-        await delay_1.default(duration);
-        this.setState({ moveData: { x: -length, y: 0 } });
-        await delay_1.default(duration);
-        this.setState({ moveData: { x: length / 2, y: 0 } });
-        await delay_1.default(duration);
-        this.setState({ moveData: { x: -length / 2, y: 0 } });
-        await delay_1.default(duration);
-        this.setState({ moveData: { x: length / 4, y: 0 } });
-        await delay_1.default(duration);
-        this.setState({ moveData: { x: -length / 4, y: 0 } });
-        await delay_1.default(duration);
-        this.setState({ moveData: { x: 0, y: 0 } });
+        // const length = Dimensions.get("window").width / 3;
+        // await delay(duration);
+        // this.setState({ moveData: { x: length, y: 0 } });
+        // await delay(duration);
+        // this.setState({ moveData: { x: -length, y: 0 } });
+        // await delay(duration);
+        // this.setState({ moveData: { x: length / 2, y: 0 } });
+        // await delay(duration);
+        // this.setState({ moveData: { x: -length / 2, y: 0 } });
+        // await delay(duration);
+        // this.setState({ moveData: { x: length / 4, y: 0 } });
+        // await delay(duration);
+        // this.setState({ moveData: { x: -length / 4, y: 0 } });
+        // await delay(duration);
+        // this.setState({ moveData: { x: 0, y: 0 } });
         if (this.props.getCurrentLength)
             this.props.getCurrentLength(0);
     }
@@ -270,7 +274,7 @@ class PinCode extends React.PureComponent {
         await delay_1.default(300);
         this.setState({ showError: true, changeScreen: false });
         this.doShake();
-        await delay_1.default(3000);
+        await delay_1.default(2000);
         this.setState({ changeScreen: true });
         await delay_1.default(200);
         this.setState({ showError: false, password: "" });
