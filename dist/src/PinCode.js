@@ -274,7 +274,7 @@ class PinCode extends React.PureComponent {
         await delay_1.default(300);
         this.setState({ showError: true, changeScreen: false });
         this.doShake();
-        await delay_1.default(2000);
+        // await delay(2000);
         this.setState({ changeScreen: true });
         await delay_1.default(200);
         this.setState({ showError: false, password: "" });

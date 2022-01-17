@@ -333,7 +333,7 @@ class PinCode extends React.PureComponent<IProps, IState> {
     await delay(300);
     this.setState({ showError: true, changeScreen: false });
     this.doShake();
-    await delay(2000);
+    // await delay(2000);
     this.setState({ changeScreen: true });
     await delay(200);
     this.setState({ showError: false, password: "" });
